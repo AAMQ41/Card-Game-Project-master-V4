@@ -54,6 +54,12 @@ function CheckForVictory(card1,card2){
                 clearInterval(timer);
                 isTimerOff=true;
                 victoryTime()
+                console.log(allCards[0].children[0])
+                for(let i=0;i<16;i++){
+                    allCards[i].children[0].className.remove("match");
+                    allCards[i].children[0].classList.remove("open");
+
+                }
             }
         },500)
 }
@@ -146,8 +152,7 @@ exit.addEventListener("click",() => {
         updateTimer();
     })
 ///here
-    restart.addEventListener("click",()=>{
-        document.querySelector(".fab").classList.remove("match");
+    restart.addEventListener("click",()=>{        
         clearInterval(timer);
         isTimerOff=true;
         time=0;
