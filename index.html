@@ -34,9 +34,9 @@
       <section id="panel" class="d-flex justify-content-evenly mx-auto">
         <div class="score">
           <ul id="heart" class="d-inline-flex list-unstyled">
-            <li><i class="bi bi-heart-fill"></i></li>
-            <li><i class="bi bi-heart-fill"></i></li>
-            <li><i class="bi bi-heart-fill"></i></li>
+            <li><i id="firstHeart"class="bi bi-heart-fill"></i></li>
+            <li><i id="secondHeart"class="bi bi-heart-fill"></i></li>
+            <li><i id="thirdHeart"class="bi bi-heart-fill"></i></li>
           </ul>
           <span id="moves">0 moves</span>
         </div>
@@ -50,8 +50,12 @@
           <div class="container">
             <h1 id="h1">Congratulations You Won</h1>
             <div  id="victory-time">You finished the game in 0:00</div>
-            <div  id="movesNo">With 0 moves</div>
-
+            <div  id="victory-movesNo">With 0 moves</div>
+            <ul id="heart" class="d-inline-flex list-unstyled">
+              <li><i id="heartOne"class="bi bi-heart-fill"></i></li>
+              <li><i id="heartTwo"class="bi bi-heart-fill"></i></li>
+              <li><i id="heartThree"class="bi bi-heart-fill"></i></li>
+            </ul>
             <div class="cross">
               <button type="button" class="exit">X</button>
             </div>

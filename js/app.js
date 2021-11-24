@@ -5,14 +5,21 @@ let allCards=[];
 let time=0;
 let isTimerOff=true;
 let timer=0;
+let moves=0;
 
 //Elements in a variable
 const start=document.getElementById("start");
 const restart=document.querySelector("#restart");
 const exit=document.querySelector(".exit");
 const displayTime=document.getElementById("timer");
-const displayVictoryTime=document.querySelector("#victory-time");
-const SelectedCard=document.querySelector("#deck")
+const victory_DisplayTime=document.querySelector("#victory-time");
+const victory_DisplayMoves=document.querySelector("#victory-movesNo");
+const displayMoves=document.querySelector("#moves");
+const firstHeart=document.getElementById("firstHeart");
+const secondHeart=document.getElementById("secondHeart");
+const heartOne=document.getElementById("heartOne");
+const heartTwo=document.getElementById("heartTwo");
+const selectedCard=document.querySelector("#deck")
 
 
 
@@ -44,35 +51,55 @@ const updateTimer=()=>{
 function push(card){
     openCard.push(card);
 }
-function CheckForVictory(card1,card2){
+function checkForVictory(card1,card2){
     allCards.push(openCard[0].children[0]);
     allCards.push(openCard[1].children[0]);
 
         setTimeout(function(){
             if(allCards.length==16){
                 document.querySelector(".pop-up").classList.add("vis");
-                clearInterval(timer);
-                isTimerOff=true;
+                stopTimer()
                 victoryTime()
-                console.log(allCards[0].children[0])
-                for(let i=0;i<16;i++){
-                    allCards[i].children[0].className.remove("match");
-                    allCards[i].children[0].classList.remove("open");
-
-                }
+                victoryMoves()
             }
         },500)
 }
 
+function stopTimer(){
+    clearInterval(timer);
+    isTimerOff=true;
+}
 function victoryTime(){
     const min=Math.floor(time/60);
     const sec=time%60;
 
     if(sec<10){
-        displayVictoryTime.innerHTML= `You finished the game in ${min}:0${sec}`
+        victory_DisplayTime.innerHTML= `You finished the game in ${min}:0${sec}`
     }
     else{
-        displayVictoryTime.innerHTML=`${min}:${sec}`
+        victory_DisplayTime.innerHTML=`${min}:${sec}`
+    }
+}
+function victoryMoves(){
+    victory_DisplayMoves.innerHTML= `${moves} moves`
+    if(moves>=16){
+        heartOne.classList.add("inv")
+    }
+    if(moves>=24){
+        heartOne.classList.add("inv")
+        heartTwo.classList.add("inv")
+    }
+}
+
+function updateMoves(){
+    moves++
+    displayMoves.innerHTML= `${moves} moves`
+    if(moves>=16){
+        firstHeart.classList.add("inv")
+    }
+    if(moves>=24){
+        firstHeart.classList.add("inv")
+        secondHeart.classList.add("inv")
     }
 }
 
@@ -82,7 +109,7 @@ function checkMatch(){
         openCard[0].classList.add("match");
         openCard[1].classList.add("match");
         
-        CheckForVictory(openCard[0],openCard[1])
+        checkForVictory(openCard[0],openCard[1])
         openCard = [];
 
     }
@@ -127,7 +154,7 @@ function shuffle(array) {
 
 // event listeners
 
-SelectedCard.addEventListener("click",function(event){
+selectedCard.addEventListener("click",function(event){
 
     if(isTimerOff){
         startTimer();
@@ -135,8 +162,9 @@ SelectedCard.addEventListener("click",function(event){
     if(validClick(event.target)){
         event.target.classList.add("open");
         push(event.target);
+
         if(openCard.length==2){
-            
+            updateMoves()
             checkMatch()
             
         }
@@ -146,16 +174,32 @@ SelectedCard.addEventListener("click",function(event){
 exit.addEventListener("click",() => {
     
         document.querySelector(".pop-up").classList.remove("vis");
-        clearInterval(timer);
-        isTimerOff=true;
-        time=0;
-        updateTimer();
+        allCards=[]
+        resetTime()
+        resetCards()
+        resetMoves()
     })
 ///here
-    restart.addEventListener("click",()=>{        
-        clearInterval(timer);
-        isTimerOff=true;
-        time=0;
-        updateTimer();
-
+function resetTime(){
+    clearInterval(timer);
+    isTimerOff=true;
+    time=0;
+    updateTimer();
+}
+function resetCards(){
+    for(let card of selectedCard.children){
+        card.classList.remove("match","open")
+    }
+}
+function resetMoves(){
+    moves=0
+    displayMoves.innerHTML= `${moves} moves`
+    firstHeart.classList.remove("inv")
+    secondHeart.classList.remove("inv")
+}
+    restart.addEventListener("click",()=>{   
+        allCards=[]
+        resetTime()
+        resetCards()
+        resetMoves()
     });
