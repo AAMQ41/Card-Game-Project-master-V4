@@ -133,6 +133,23 @@ return false;
 
 }
 
+function resetTime(){
+    clearInterval(timer);
+    isTimerOff=true;
+    time=0;
+    updateTimer();
+}
+function resetCards(){
+    for(let card of selectedCard.children){
+        card.classList.remove("match","open")
+    }
+}
+function resetMoves(){
+    moves=0
+    displayMoves.innerHTML= `${moves} moves`
+    firstHeart.classList.remove("inv")
+    secondHeart.classList.remove("inv")
+}
 
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
@@ -148,6 +165,17 @@ function shuffle(array) {
     return array;
 }
 
+function reshuffle(){
+    let Cards=deck.children
+    let afterShuffle= shuffle(Array.from(Cards))
+    console.log(afterShuffle)
+    //for(let i=0;i<afterShuffle.length;i++){
+    //    console.log(deck.children=afterShuffle[i])
+   // }
+    deck.replaceChildren(...afterShuffle)
+}
+
+reshuffle()
 
 
 
@@ -178,28 +206,13 @@ exit.addEventListener("click",() => {
         resetTime()
         resetCards()
         resetMoves()
+        reshuffle()
     })
-///here
-function resetTime(){
-    clearInterval(timer);
-    isTimerOff=true;
-    time=0;
-    updateTimer();
-}
-function resetCards(){
-    for(let card of selectedCard.children){
-        card.classList.remove("match","open")
-    }
-}
-function resetMoves(){
-    moves=0
-    displayMoves.innerHTML= `${moves} moves`
-    firstHeart.classList.remove("inv")
-    secondHeart.classList.remove("inv")
-}
+
     restart.addEventListener("click",()=>{   
         allCards=[]
         resetTime()
         resetCards()
         resetMoves()
+        reshuffle()
     });
